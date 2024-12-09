@@ -51,6 +51,7 @@ var createDataTypesChecker = require('../util/create-data-types-checker');
 var warn = require('../util/warn');
 var handleError = require('../util/handle-error');
 var DOMChildrenWalker = require('./dom-children-walker');
+var {initInjections, initProvide} = require('../runtime/inject');
 
 
 var proxySupported = typeof Proxy !== 'undefined';
@@ -118,6 +119,9 @@ function Component(options) { // eslint-disable-line
     this.sourceSlots = {
         named: {}
     };
+
+    initInjections(this, this.inject);
+    initProvide(this, this.provide);
 
     // #[begin] devtool
     this._toPhase('beforeCompile');
